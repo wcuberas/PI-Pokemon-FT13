@@ -19,10 +19,18 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
+const { POKEMON_TYPE } = require('./src/constants');
+const axios = require('axios');
+const { Type } = require('./src/db');
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
   server.listen(3001, () => {
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
+    console.log('Server listening at 3001'); // eslint-disable-line no-console
+
+    axios.get(POKEMON_TYPE).then((elem) => {
+			elem.data.results.forEach((type) => Type.create({name: type.name}));
+			console.log('The Types was loaded');
+		});
   });
 });
