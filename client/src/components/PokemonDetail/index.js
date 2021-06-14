@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { clearDetail, getPokemonDetail } from '../../actions/index';
 
@@ -8,34 +7,42 @@ function PokemonDetail() {
 
     const dispatch = useDispatch();
     const pokemonDetail = useSelector(state => state.pokemonDetail);
+    const [ loading, setLoading ] = useState(false);
     const { id } = useParams();
 
     useEffect(() => {
+        setLoading(true);
         dispatch(getPokemonDetail(id))
         return () => {
             dispatch(clearDetail())
         }
-    }, [])
-    console.log(pokemonDetail[0])
-    return (
-        <div>
-            {pokemonDetail === undefined && <h1>Cargando...</h1>}
-            {typeof pokemonDetail === 'object' && 
-                (<div>
-                    <img src={pokemonDetail[0].sprite} alt='sprite' />
-                    <div>Name: {pokemonDetail[0].name}</div>
-                    <div>id: {pokemonDetail[0].id}</div>
-                    <div>attack: {pokemonDetail[0].attack}</div>
-                    <div>defense: {pokemonDetail[0].defense}</div>
-                    <div>hp: {pokemonDetail[0].hp}</div>
-                    <div>height: {pokemonDetail[0].height}</div>
-                    <div>weight: {pokemonDetail[0].weight}</div>
-                    <div>speed: {pokemonDetail[0].speed}</div>
-                    <div>Types: {pokemonDetail[0].Types && pokemonDetail[0].Types.map((p,i) => (<div key={i}>{p.name}</div>))}</div>
-                </div>)
-            }
-        </div>
-    )
+    }, [dispatch, id])
+
+    useEffect(() => {
+        if (pokemonDetail.name) setLoading(false);
+    }, [ pokemonDetail ]);
+    console.log(pokemonDetail);
+    
+        // if(pokemonDetail === null) {
+        //     return (<h1>Pokemon not found</h1>)
+        // } else if(pokemonDetail === undefined) {
+        //     return (<h1>Cargando...</h1>)
+        // } else {
+            return ( !loading ? <div>
+                <img src={pokemonDetail.sprite} alt='sprite' />
+                <div>Name: {pokemonDetail.name}</div>
+                <div>id: {pokemonDetail.id}</div>
+                <div>attack: {pokemonDetail.attack}</div>
+                <div>defense: {pokemonDetail.defense}</div>
+                <div>hp: {pokemonDetail.hp}</div>
+                <div>height: {pokemonDetail.height}</div>
+                <div>weight: {pokemonDetail.weight}</div>
+                <div>speed: {pokemonDetail.speed}</div>
+                <div>Types: {pokemonDetail.Types && pokemonDetail.Types.map((p,i) => (<div key={i}>{p.name}</div>))}</div>
+            </div>
+            : <AnimacionAMostrarCuandoEstaCargando />
+            )
+    //    }
 }
 
 export default PokemonDetail;

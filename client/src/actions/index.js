@@ -25,21 +25,16 @@ export function getPokemonsTypes() {
 
 export function getPokemonDetail(id) {
     return (dispatch) => {
-            axios.get(POKEMON_ID + id).then(response => {
-                dispatch({ type: GET_POKEMONS_DETAIL, payload: response.data })
+        console.log("ME EJECUTO ACTION");
+            return axios.get(POKEMON_ID + id).then(response => {
+                console.log("Response: ", response.data)
+                dispatch({ type: GET_POKEMONS_DETAIL, payload: response.data[0] })
             })
-            .catch(error => console.log(error));
-    }
-}
-
-
-
-export function getPokemonSearch(name) {
-    return (dispatch) => {
-            axios.get(POKEMON_NAME + name).then(response => {
-                dispatch({ type: GET_POKEMONS_DETAIL, payload: response.data })
-            })
-            .catch(error => console.log(error));
+            .catch(error => {
+                if(error.response?.status !== 404) alert("Something went wrong")
+                dispatch({ type: GET_POKEMONS_DETAIL, payload: null })
+                console.log("Salio mal")
+            });
     }
 }
 
