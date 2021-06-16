@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { clearDetail, getPokemonDetail } from '../../actions/index';
+import LoadingSpin from '../../Loading';
 
 function PokemonDetail() {
 
@@ -19,16 +20,11 @@ function PokemonDetail() {
     }, [dispatch, id])
 
     useEffect(() => {
-        if (pokemonDetail.name) setLoading(false);
+        if (pokemonDetail.sprite) setLoading(false);
     }, [ pokemonDetail ]);
-    console.log(pokemonDetail);
-    
-        // if(pokemonDetail === null) {
-        //     return (<h1>Pokemon not found</h1>)
-        // } else if(pokemonDetail === undefined) {
-        //     return (<h1>Cargando...</h1>)
-        // } else {
-            return ( !loading ? <div>
+
+            return ( !loading ? 
+            <div>
                 <img src={pokemonDetail.sprite} alt='sprite' />
                 <div>Name: {pokemonDetail.name}</div>
                 <div>id: {pokemonDetail.id}</div>
@@ -40,9 +36,8 @@ function PokemonDetail() {
                 <div>speed: {pokemonDetail.speed}</div>
                 <div>Types: {pokemonDetail.Types && pokemonDetail.Types.map((p,i) => (<div key={i}>{p.name}</div>))}</div>
             </div>
-            : <AnimacionAMostrarCuandoEstaCargando />
+            : <LoadingSpin />
             )
-    //    }
 }
 
 export default PokemonDetail;

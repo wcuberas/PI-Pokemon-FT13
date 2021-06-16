@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { GET_POKEMONS, GET_POKEMONS_TYPES, GET_POKEMONS_DETAIL, SET_POKEMON_DETAIL } from './actionsNames';
-import { POKEMON_URL, POKEMON_TYPE, POKEMON_ID, POKEMON_NAME } from '../constants';
+import { GET_POKEMONS, GET_POKEMONS_TYPES, GET_POKEMONS_DETAIL, SET_POKEMON_DETAIL, POKEMONS_TYPE } from './actionsNames';
+import { POKEMON_URL, POKEMON_TYPE, POKEMON_ID } from '../constants';
 
 
 export function getPokemons() {
@@ -25,15 +25,12 @@ export function getPokemonsTypes() {
 
 export function getPokemonDetail(id) {
     return (dispatch) => {
-        console.log("ME EJECUTO ACTION");
             return axios.get(POKEMON_ID + id).then(response => {
-                console.log("Response: ", response.data)
                 dispatch({ type: GET_POKEMONS_DETAIL, payload: response.data[0] })
             })
             .catch(error => {
                 if(error.response?.status !== 404) alert("Something went wrong")
                 dispatch({ type: GET_POKEMONS_DETAIL, payload: null })
-                console.log("Salio mal")
             });
     }
 }

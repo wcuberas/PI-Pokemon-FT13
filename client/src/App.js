@@ -14,9 +14,8 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar />
       <Route exact path='/' component={LandingPage} />
-      <Route path='/home' component={SearchBar} />
+      <Route path='/home' component={NavBar} />
       <Route path='/home' component={Home} />
       <Route path='/pokemon/:id' component={PokemonDetail} />
       <Route path='/create' component={CreatePokemon} />
