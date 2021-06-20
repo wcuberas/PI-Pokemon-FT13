@@ -1,0 +1,76 @@
+
+.container-home {
+    display: grid;
+    justify-items: center;
+    grid-template-rows: 0.1fr 0.1fr 0.1fr 0.3fr;
+}
+
+.group-inputSearch {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0px 60px 0px;
+}
+
+.group-filters {
+    display: flex;
+	justify-content: center;
+	margin: -60px 0px 50px 0px;
+    
+	
+}
+
+.container-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    width: 90%;
+    align-self: center;
+    justify-items: center;
+    
+}
+
+.card-pokemon {
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);
+    align-items: center;
+    justify-items: center;
+	margin: 5px;
+	height: 160px;
+    
+}
+
+.img-poke {
+    display: grid;
+    width: 30%;
+    justify-items: center;
+}
+
+.title-poke {
+    display: grid;
+    width: 190px;
+    height: 30px;
+    margin: 0px 0px 0px 0px;
+    color: white;
+    font-size: 23px;
+}
+
+.container-types-home {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+	
+}
+
+.type-poke-home {
+    display: grid;
+    margin: 9px 0px 0px 7px;
+    padding: 1px 1px 1px 1px;
+    font-size: 18px;
+    border-style: solid;
+    border-color: black;
+    border-width: 0px;
+    border-radius: 6px;
+    background-color: #fcf300;
+    box-shadow: 0px 3px 3px 1px rgba(0, 0, 0, 0.3);
+
+}

@@ -3,8 +3,7 @@ import { GET_POKEMONS, GET_POKEMONS_TYPES, GET_POKEMONS_DETAIL, SET_POKEMON_DETA
 const initialState = {
     allPokemons: [],
     pokemonsTypes: [],
-    pokemonDetail: {}
-
+    pokemonDetail: undefined
 };
 
 
@@ -25,7 +24,6 @@ function rootReducer(state = initialState, action) {
                 ...state,
                 pokemonDetail: action.payload
             }
-       
         default:
             return state;
     }

@@ -3,22 +3,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getPokemons, getPokemonsTypes } from '../../actions';
 import LoadingSpin from '../../Loading';
+import './home.css';
 
 
 
 function Home() {
-    
+   
     const allPokemons = useSelector(state => state.allPokemons);
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState(0);
     const [input, setInput] = useState('');
-    const [ Loading, setLoading ] = useState(false);
     const pokemonsTypes = useSelector(state => state.pokemonsTypes);
     const [filteredPokemons, setFilteredPokemons] = useState([])
-
+    
 
     useEffect(() => {
-        setLoading(true);
         dispatch(getPokemons())
     }, []);
 
@@ -29,17 +28,14 @@ function Home() {
     
     useEffect(() => {
         const filtered = input.length === 0 ? allPokemons : allPokemons.filter(poke => poke.name.includes(input));
-        //const filteredPoke = filtered.slice(currentPage, currentPage + 12);
-        //setFilteredPokemons(allPokemons)
-        setFilteredPokemons(filtered.slice(currentPage, currentPage + 12));
+        const filteredPoke = filtered.slice(currentPage, currentPage + 12);
+        setFilteredPokemons(filteredPoke);
     }, [allPokemons,input, currentPage]);
     
-  
     
     const nextPage = () => {
         if(allPokemons.filter(poke => poke.name.includes(input)).length > currentPage + 12) 
-            setCurrentPage(currentPage + 12);
-            
+            setCurrentPage(currentPage + 12);     
     }
 
     const prevPage = () => {
@@ -53,89 +49,123 @@ function Home() {
     };
 
     const handleOrderChange = (e) => {
-        if(e.target.value === 'All') setFilteredPokemons(filteredPokemons);
+        if(e.target.value === 'All') dispatch(getPokemons());
         if(e.target.value === 'A-Z') {
-            const result = (((filteredPokemons.sort((a,b) => a.name > b.name ? 1 : -1))))
+            const result = allPokemons.sort((a,b) => a.name > b.name ? 1 : -1)
             setFilteredPokemons(result);
         }
         if(e.target.value === 'Z-A') {
-            const result = ((filteredPokemons.sort((a,b) => a.name < b.name ? 1 : -1)));
+            const result = allPokemons.sort((a,b) => a.name < b.name ? 1 : -1);
             setFilteredPokemons(result);
         }
         if(e.target.value === 'more HP') {
-            const result = ((filteredPokemons.sort((a,b) => a.hp > b.hp ? 1 : -1)));
+            const result = allPokemons.sort((a,b) => a.hp > b.hp ? 1 : -1);
             setFilteredPokemons(result);
         }
         if(e.target.value === 'less HP') {
-            const result = ((filteredPokemons.sort((a,b) => a.hp < b.hp ? 1 : -1)));
+            const result = allPokemons.sort((a,b) => a.hp < b.hp ? 1 : -1);
             setFilteredPokemons(result);
         }
     }
 
 
     const handleFilterChange = (e) => {
-        if(e.target.value === 'All') console.log(filteredPokemons);
-        let arrayPoke = filteredPokemons.filter(el => 
-            el.Types.length ? el.Types[0].name === e.target.value
-                            ? true 
-                            : el.Types.length > 1 ? el.Types[1] === e.target.value
-                            ? true : false
-                            : false
-                            : false);
-                            console.log(arrayPoke);
+        if(e.target.value === 'All') {
+            dispatch(getPokemons());
+        } else {
+            let arrayPoke = allPokemons.filter(el => 
+                el.Types.length ? el.Types[0].name === e.target.value
+                                ? true 
+                                : el.Types.length > 1 ? el.Types[1] === e.target.value
+                                ? true : false
+                                : false
+                                : false);
+                                setFilteredPokemons(arrayPoke);
+        }
     }
-    // Falta el filtro por pokemons existentes y los creados por el usuario
+    
+    const handleFilterUserChange = (e) => {
+        if(e.target.value === 'All') {
+            dispatch(getPokemons())
+        } else if(e.target.value === 'API') {
+            let filterApi = allPokemons.filter(el => 
+                typeof el.id === 'number' );
+                setFilteredPokemons(filterApi)
+        } else if(e.target.value === 'CREATED BY USER') {
+            let filterApi = allPokemons.filter(el => 
+                typeof el.id === 'string' );
+                setFilteredPokemons(filterApi)
+        }
+    }   
 
-    return ( 
-        <div>
-            <h3>FIND YOUR POKEMON</h3>
-            <button onClick={ prevPage }>Previous</button>
-            <button onClick={ nextPage }>Next</button>
-            <input 
-                type="text"
-                placeholder="..."
-                value={ input }
-                onChange={ handleChange }
-            />
-            <br />
-            <div>
-                <h4>ORDER</h4>
-                <select name="select" onChange={(e) => handleOrderChange(e)}>
-                    <option value='All'>ALL</option>
-                    <option value='A-Z'>A-Z</option>
-                    <option value='Z-A'>Z-A</option>  
-                    <option value='more HP'>more HP</option>  
-                    <option value='less HP'>less HP</option>  
-                </select>
-            </div>
-            <div>
-            <h4>FILTER</h4>
-            <select name="select" onChange={(e) => handleFilterChange(e)}>
-                <option value='All'>All</option>
-                {pokemonsTypes && pokemonsTypes.map(type => (
-                    <option key={type.id} value={type.name}>{type.name}</option>
-                ))}
-            </select>
-            </div>
-                
-                { 
-                    filteredPokemons ? filteredPokemons.map(poke => (
-                    <div key={poke.id}>
-                        <Link to={`/pokemon/${poke.id}`}>
-                            <span>{poke.name}</span>
-                            <img src={poke.sprite} />
-                            {poke.Types && poke.Types.map((p,i) => (
-                                <div key={i}>
-                                    {p.name}
-                                </div>
-                            ))}
-                             <hr/>
-                        </Link>
+    
+        return ( 
+            <div className='container-home'>
+                <h3 className='title-home'>FIND YOUR POKEMON</h3>
+                <div className='group-inputSearch'>
+                    <button className='btn btn-paginate' onClick={ prevPage }>Previous</button>
+                    <button className='btn btn-paginate' onClick={ nextPage }>Next</button>
+                    <input 
+                        className='input-search'
+                        type="text"
+                        placeholder="..."
+                        value={ input }
+                        onChange={ handleChange }
+                    />
+                </div>
+                <br />
+                <div className='group-filters'>
+                    <div className='container-orderHome'>
+                        <h4 className='title-orderHome'>ORDER</h4>
+                        <select className='select-orderHome' name="select" onChange={(e) => handleOrderChange(e)}>
+                            <option value='All'>ALL</option>
+                            <option value='A-Z'>A-Z</option>
+                            <option value='Z-A'>Z-A</option>  
+                            <option value='more HP'>more HP</option>  
+                            <option value='less HP'>less HP</option>  
+                        </select>
                     </div>
-                    )) : <h1>NOT FOUND !!!</h1>    
-                }    
-        </div>
-    ) 
-}
+                    <div className='container-filterHome'>
+                        <h4 className='title-filterHome'>FILTER BY TYPE</h4>
+                        <select className='select-filterHome' name="select" onChange={(e) => handleFilterChange(e)}>
+                            <option value='All'>All</option>
+                            {pokemonsTypes && pokemonsTypes.map(type => (
+                                <option key={type.id} value={type.name}>{type.name}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className='container-filterUser'>
+                        <h4 className='title-filterUser'>FILTER BY USER</h4>
+                        <select className='select-filterUser' name="select" onChange={(e) => handleFilterUserChange(e)}>
+                            <option value='All'>ALL</option>
+                            <option value='API'>API</option>
+                            <option value='CREATED BY USER'>CREATED BY USER</option>
+                        
+                        </select>
+                    </div>
+                </div>
+                <div className='container-cards'>
+                    { 
+                        filteredPokemons ? filteredPokemons.map(poke => (
+                        <div className='card-pokemon' key={poke.id}>
+                            <Link to={`/pokemon/${poke.id}`}>
+                                <span className='title-poke' >{poke.name}</span>
+                                <img className='img-poke' src={poke.sprite} />
+                                <div className='container-types-home'>
+                                    {poke.Types && poke.Types.map((p,i) => (
+                                        <div className='type-poke-home' key={i}>
+                                            {p.name}
+                                        </div>
+                                    ))}
+                                </div>
+                            </Link>
+                        </div>
+                        )) : <h1 className='title-form'>NOT FOUND !!!</h1>    
+                    }  
+                </div>  
+            </div>
+        ) 
+    }
+
 
 export default Home;

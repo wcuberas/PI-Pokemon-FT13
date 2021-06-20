@@ -12,10 +12,10 @@ export default function NavBar() {
                             <img className='logoPokemon' src={logo} />
                         </NavLink>
                     </div>
-                    <div className='nav-div2'>
+                    <div className='div-nav-total nav-div2'>
                         <NavLink to={`/home`}>HOME</NavLink>
                     </div>
-                    <div className='nav-div3'>
+                    <div className='div-nav-total nav-div3'>
                         <NavLink to={`/create`}>CREATE POKEMON</NavLink>
                     </div>
             </nav>

@@ -1,22 +1,26 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import './landing.css'
+import logo from '../../image/pokemon.png';
 
 function LandingPage() {
-
+    
     return (
         <div className='landingPage'>
             <div>
-                <h2>POKEMON APP</h2>
+                <img className='logo-landing' src={logo}/>
             </div>
-            <div>
-                <h3>WELCOME</h3>
+            <div className='container-div'>
                 
-            </div>
-            <div className='div-btn'>
-                <Link to={`/home`} > 
-                    <button>ENTER</button>
-                </Link>
+                <div className='title-landing'>
+                    <h1>WELCOME</h1>
+                    
+                </div>
+                <div>
+                    <Link to={`/home`} > 
+                        <button className='btn btn-success btn-large'>ENTER</button>
+                    </Link>
+                </div>
             </div>
         </div>
     )

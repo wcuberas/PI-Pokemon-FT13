@@ -5,18 +5,19 @@ import { POKEMON_URL } from '../../constants';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPokemonsTypes } from '../../actions/index';
+import './createPokemon.css';
 
 
 function CreatePokemon() {
 
     const [input, setInput] = useState({
         name: '',
-        hp: undefined,
-        attack: undefined,
-        defense: undefined,
-        weight: undefined,
-        height: undefined,
-        speed: undefined,
+        hp: '',
+        attack: '',
+        defense: '',
+        weight: '',
+        height: '',
+        speed: '',
         type: 1,
         sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/500.svg'
     })
@@ -25,11 +26,25 @@ function CreatePokemon() {
     const pokemonsTypes = useSelector(state => state.pokemonsTypes);
     const [Types, setTypes] = useState([])
     const [Errors, setErrors] = useState({})
-    const [stop, setStop] = useState({errors: false, create: false})
+    const [stop, setStop] = useState({errors: false, create: false}) //Avisa si hay errores o alertas
 
     useEffect(() => {
 		dispatch(getPokemonsTypes());
 	}, [getPokemonsTypes]);
+
+
+    useEffect(() => {
+		if(!Object.keys(Errors).length) {
+			setStop({...stop, errors: false});
+		}
+	}, [Errors]);
+
+
+    useEffect(() => {
+		setErrors(Validate(input));
+	}, [input]);
+
+
 
     useEffect(() => {
 		if(Types.length) {
@@ -53,18 +68,8 @@ function CreatePokemon() {
 	};
 
 
-    useEffect(() => {
-		if(!Object.keys(Errors).length) {
-			setStop({...stop, errors: false});
-		}
-	}, [Errors]);
-
 
     const handleInputChange = (e) => {
-        setErrors(Validate({
-            ...input,
-            [e.target.name]: e.target.value
-        }));
         setInput({
             ...input,
             [e.target.name]: e.target.value
@@ -87,9 +92,9 @@ function CreatePokemon() {
 
 
     return (
-        <div>
-           <h1>CREATE POKEMON</h1>
-           <form className="" onSubmit={ handleSubmit }>
+        <div className='div-container-form'>
+           <h1 className='title-form'>CREATE POKEMON</h1>
+           <form className="form-container" onSubmit={ handleSubmit }>
                 {stop.errors ? (
 						<div className='div_errors'>
 							<ul>
@@ -101,7 +106,7 @@ function CreatePokemon() {
 							</ul>
 						</div>
 					) : null}
-                <label>NAME</label>
+                <label className='form-label'>NAME</label>
                 <input 
                     type="text"
                     className="form-control"
@@ -109,8 +114,8 @@ function CreatePokemon() {
                     value={input.name}
                     onChange={handleInputChange}
                 />
-                <hr/>
-                <label>HP</label>
+                <br/>
+                <label className='form-label'>HP</label>
                 <input
                     type="text"
                     className="form-control"
@@ -118,8 +123,8 @@ function CreatePokemon() {
                     value={input.hp}
                     onChange={handleInputChange}
                 />
-                <hr/>
-                <label>ATTACK</label>
+                <br/>
+                <label className='form-label'>ATTACK</label>
                 <input 
                     type="text"
                     className="form-control"
@@ -127,8 +132,8 @@ function CreatePokemon() {
                     value={input.attack}
                     onChange={handleInputChange}
                 />
-                <hr/>
-                <label>DEFENSE</label>
+                <br/>
+                <label className='form-label'>DEFENSE</label>
                 <input 
                     type="text"
                     className="form-control"
@@ -136,8 +141,8 @@ function CreatePokemon() {
                     value={input.defense}
                     onChange={handleInputChange}
                 />
-                <hr/>
-                <label>WEIGHT</label>
+                <br/>
+                <label className='form-label'>WEIGHT</label>
                 <input 
                     type="text"
                     className="form-control"
@@ -145,8 +150,8 @@ function CreatePokemon() {
                     value={input.weight}
                     onChange={handleInputChange}
                 />
-                <hr/>
-                <label>HEIGHT</label>
+                <br/>
+                <label className='form-label'>HEIGHT</label>
                 <input 
                     type="text"
                     className="form-control"
@@ -154,8 +159,8 @@ function CreatePokemon() {
                     value={input.height}
                     onChange={handleInputChange}
                 />
-                <hr/>
-                <label>SPEED</label>
+                <br/>
+                <label className='form-label'>SPEED</label>
                 <input 
                     type="text"
                     className="form-control"
@@ -163,8 +168,8 @@ function CreatePokemon() {
                     value={input.speed}
                     onChange={handleInputChange}
                 />
-                <hr/>
-                <label>SPRITE</label>
+                <br/>
+                <label className='form-label'>SPRITE</label>
                 <input 
                     type="text"
                     className="form-control"
@@ -172,7 +177,7 @@ function CreatePokemon() {
                     value={input.sprite}
                     onChange={handleInputChange}
                 />
-                <hr/>
+                <br/>
                 <div className='div_types'>
 						<select onChange={(e) => handleTypes(e)}>
 							{pokemonsTypes &&
@@ -186,15 +191,15 @@ function CreatePokemon() {
 							{Types &&
 								Types.map((el, i) => (
 									<div key={i} className='div_type'>
-										<label className='label'>{el}</label>
+										<label className='label-type'>{el}</label>
 									</div>
 								))}
 						</div>
 					</div>
-                <button type="submit">CREATE POKEMON</button>
+                <button className='btn-form' type="submit">CREATE POKEMON</button>
                 {stop.create ? (
 						<div className='div_create_confirm'>
-							<h3 className='message_create'>
+							<h3 className='btn btn-message-create'>
 								Pokemon created !!!
 							</h3>
 						</div>
@@ -206,20 +211,3 @@ function CreatePokemon() {
 
 export default CreatePokemon;
 
-
-// Formulario controlado con:
-// 1--> Detalle de pokemon 
-// 2--> Poder agregar mas de un type 
-// 3--> Boton para crear el nuevo pokemon (se va a agregar a nuestra BD)
-
- {/* name
-                id
-                hp
-                attack
-                defense
-                weight
-                height
-                speed
-                type
-                img
-                */}

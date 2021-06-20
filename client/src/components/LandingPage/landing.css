@@ -4,6 +4,8 @@
 
 body {
     font-family: 'Baloo Tammudu 2', sans-serif;
+    height: 100%;
+    width: 100%;
     background-color: #FFCC29;
 }
 
@@ -11,3 +13,67 @@ button {
 	font-family: 'Baloo Tammudu 2', sans-serif;
 }
 
+.landingPage {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    margin: auto;
+
+}
+
+.logo-landing {
+    width: 70%;
+    height: auto;
+    margin-top: 30px;
+    
+}
+
+.title-landing {
+    font-size: 2rem;
+    text-shadow: 4px 5px 5px #3D84B8 ;
+    color: #161616;
+    
+}
+
+.btn {
+    
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+ }
+
+ .btn:hover {
+    color: #212529;
+  }
+
+
+.btn-success {
+    color: #fff;
+    background-color: #1768AC;
+    border-color: #2541B2;
+}
+.btn-success:hover {
+    color: #fff;
+    background-color: #3D84B8;
+    border-color: #2541B2;
+}
+
+.btn-large {
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 0.3rem;
+    width: 20%;
+    
+}
