@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { clearDetail, getPokemonDetail } from '../../actions/index';
 import LoadingSpin from '../../Loading';
 import Error404 from '../Error404';
+import './pokemonDetail.css';
 
 function PokemonDetail() {
 
@@ -23,18 +24,24 @@ function PokemonDetail() {
     } else if(pokemonDetail === undefined) {
         return <LoadingSpin />
     } else {
-        return (<div>
-            <img src={pokemonDetail.sprite} alt='sprite' />
-            <div>Name: {pokemonDetail.name}</div>
-            <div>id: {pokemonDetail.id}</div>
-            <div>attack: {pokemonDetail.attack}</div>
-            <div>defense: {pokemonDetail.defense}</div>
-            <div>hp: {pokemonDetail.hp}</div>
-            <div>height: {pokemonDetail.height}</div>
-            <div>weight: {pokemonDetail.weight}</div>
-            <div>speed: {pokemonDetail.speed}</div>
-            <div>Types: {pokemonDetail.Types && pokemonDetail.Types.map((p,i) => (<div key={i}>{p.name}</div>))}</div>
-        </div>)
+        return (
+        <div className='container-main'>    
+            <div className='container-pokeDetail'>
+                <img className='img-pokeDetail' src={pokemonDetail.sprite} alt='sprite' />
+                <div className='detailPokemon'>
+                    <div> <font color='#2541B2'>Name:</font>  <font color='#1768AC'>{pokemonDetail.name}</font> </div>
+                    <div> <font color='#2541B2'>id: </font> <font color='#1768AC'>{pokemonDetail.id}</font></div>
+                    <div> <font color='#2541B2'>attack:</font> <font color='#1768AC'>{pokemonDetail.attack}</font></div>
+                    <div> <font color='#2541B2'>defense:</font> <font color='#1768AC'>{pokemonDetail.defense}</font></div>
+                    <div> <font color='#2541B2'>hp:</font> <font color='#1768AC'>{pokemonDetail.hp}</font></div>
+                    <div> <font color='#2541B2'>height:</font> <font color='#1768AC'>{pokemonDetail.height}</font></div>
+                    <div> <font color='#2541B2'>weight:</font> <font color='#1768AC'>{pokemonDetail.weight}</font></div>
+                    <div> <font color='#2541B2'>speed:</font> <font color='#1768AC'>{pokemonDetail.speed}</font></div>
+                    <div> <font color='#2541B2'>Types:</font> <font color='#1768AC'>{pokemonDetail.Types && pokemonDetail.Types.map((p,i) => (<div key={i}>{p.name}</div>))}</font></div>
+                </div>
+            </div>
+        </div>
+        )
     }
 }
 

@@ -4,8 +4,12 @@ import './loadingSpin.css'
 function LoadingSpin() {
     return (
         <div>
-            <h2 className="u-text-center">CARGANDO...</h2>
-            <div className="o-pokeball c-loader u-flash"></div>
+            <h2 className="title-form title-spinner">CARGANDO...</h2>
+            
+            <div className='spinner'>
+                <div className='double-bounce1'></div>
+                <div className='double-bounce2'></div>
+            </div>
         </div>
     )
 }

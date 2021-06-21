@@ -25,14 +25,13 @@ function Home() {
         dispatch(getPokemonsTypes())
     }, []);
 
-    
     useEffect(() => {
         const filtered = input.length === 0 ? allPokemons : allPokemons.filter(poke => poke.name.includes(input));
         const filteredPoke = filtered.slice(currentPage, currentPage + 12);
         setFilteredPokemons(filteredPoke);
     }, [allPokemons,input, currentPage]);
     
-    
+
     const nextPage = () => {
         if(allPokemons.filter(poke => poke.name.includes(input)).length > currentPage + 12) 
             setCurrentPage(currentPage + 12);     
@@ -97,18 +96,20 @@ function Home() {
                 setFilteredPokemons(filterApi)
         }
     }   
-
-    
+        if(filteredPokemons.length === 0) {
+            return <LoadingSpin />
+        } else {
+        
         return ( 
             <div className='container-home'>
-                <h3 className='title-home'>FIND YOUR POKEMON</h3>
+                <h3 className='title-home title-form'>FIND YOUR POKEMON</h3>
                 <div className='group-inputSearch'>
-                    <button className='btn btn-paginate' onClick={ prevPage }>Previous</button>
-                    <button className='btn btn-paginate' onClick={ nextPage }>Next</button>
+                    <button className='btn btn-paginate btn-success' onClick={ prevPage }>Previous</button>
+                    <button className='btn btn-paginate btn-success' onClick={ nextPage }>Next</button>
                     <input 
                         className='input-search'
                         type="text"
-                        placeholder="..."
+                        placeholder="Pokemon name here..."
                         value={ input }
                         onChange={ handleChange }
                     />
@@ -125,18 +126,18 @@ function Home() {
                             <option value='less HP'>less HP</option>  
                         </select>
                     </div>
-                    <div className='container-filterHome'>
-                        <h4 className='title-filterHome'>FILTER BY TYPE</h4>
-                        <select className='select-filterHome' name="select" onChange={(e) => handleFilterChange(e)}>
-                            <option value='All'>All</option>
+                    <div className='container-orderHome'>
+                        <h4 className='title-orderHome'>FILTER BY TYPE</h4>
+                        <select className='select-orderHome' name="select" onChange={(e) => handleFilterChange(e)}>
+                            <option value='All'>ALL</option>
                             {pokemonsTypes && pokemonsTypes.map(type => (
                                 <option key={type.id} value={type.name}>{type.name}</option>
                             ))}
                         </select>
                     </div>
-                    <div className='container-filterUser'>
-                        <h4 className='title-filterUser'>FILTER BY USER</h4>
-                        <select className='select-filterUser' name="select" onChange={(e) => handleFilterUserChange(e)}>
+                    <div className='container-orderHome'>
+                        <h4 className='title-orderHome'>FILTER BY USER</h4>
+                        <select className='select-orderHome' name="select" onChange={(e) => handleFilterUserChange(e)}>
                             <option value='All'>ALL</option>
                             <option value='API'>API</option>
                             <option value='CREATED BY USER'>CREATED BY USER</option>
@@ -147,8 +148,8 @@ function Home() {
                 <div className='container-cards'>
                     { 
                         filteredPokemons ? filteredPokemons.map(poke => (
-                        <div className='card-pokemon' key={poke.id}>
-                            <Link to={`/pokemon/${poke.id}`}>
+                        <div  key={poke.id}>
+                            <Link className='card-pokemon' to={`/pokemon/${poke.id}`}>
                                 <span className='title-poke' >{poke.name}</span>
                                 <img className='img-poke' src={poke.sprite} />
                                 <div className='container-types-home'>
@@ -166,6 +167,6 @@ function Home() {
             </div>
         ) 
     }
-
+}
 
 export default Home;

@@ -1,15 +1,12 @@
-.container-404 {
-    
+
+
+.str-404 {
+    font-size: 1.4rem;
+    font-weight: bolder;
+    text-shadow: 1px 3px 3px #3D84B8 ;
+    color: #161616;   
 }
 
 .img-404 {
-    
-}
-
-.title-404 {
-    
-}
-
-.str-404 {
-    
+    border-radius: 20px;
 }

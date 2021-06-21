@@ -38,7 +38,6 @@ export function getPokemonDetail(id) {
     }
 }
 
-
 export function clearDetail() {
     return {
         type: GET_POKEMONS_DETAIL, payload: undefined

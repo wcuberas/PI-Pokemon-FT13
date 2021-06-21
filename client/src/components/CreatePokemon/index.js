@@ -96,10 +96,10 @@ function CreatePokemon() {
            <h1 className='title-form'>CREATE POKEMON</h1>
            <form className="form-container" onSubmit={ handleSubmit }>
                 {stop.errors ? (
-						<div className='div_errors'>
-							<ul>
+						<div>
+							<ul className='alert alert-danger'>
 								{Object.values(Errors).map((elem) => (
-									<li key={elem} className='li_text'>
+									<li  key={elem}>
 										{elem}
 									</li>
 								))}
@@ -190,8 +190,8 @@ function CreatePokemon() {
 						<div className='div_type_container'>
 							{Types &&
 								Types.map((el, i) => (
-									<div key={i} className='div_type'>
-										<label className='label-type'>{el}</label>
+									<div key={i} >
+										<label className='type-label-create'>{el}</label>
 									</div>
 								))}
 						</div>

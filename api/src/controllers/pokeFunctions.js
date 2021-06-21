@@ -1,15 +1,14 @@
 const axios = require('axios');
-const { POKEMON_URL, LIMIT_POKEMON } = require('../constants');
+const { POKEMON_URL} = require('../constants');
 const { Pokemon, Type } = require('../db');
 
 
-// Trae los primeros 'LIMIT_POKEMON' pokemons de la API
-const getAllPokeAPI = async () => {
-      let callURL = await axios
-            .get(`${POKEMON_URL}?limit=${LIMIT_POKEMON}`);
-      let allAPI = callURL.data.results;
-// Averiguar si hay una manera de q la info venga mas rapido...Promise.all ???
-      for (let poke of allAPI) {
+const getAllPokeAPI = async () => {	
+    let callURL = await axios.get(`${POKEMON_URL}`);
+	let callURLNext = await axios.get(callURL.data.next);
+	let allAPI = callURL.data.results.concat(callURLNext.data.results);
+		
+    for (let poke of allAPI) {
 		let pokeDetail = await axios.get(poke.url);
 		pokeDetail = pokeDetail.data;
         delete poke.url;
@@ -26,15 +25,15 @@ const getAllPokeAPI = async () => {
 		});
 		poke.sprite = pokeDetail.sprites.other.dream_world.front_default;
 	}
-      return allAPI;
+    return allAPI;
 }
 
 const getAllPokeAPP = async () => {
-      return await Pokemon.findAll({ include: {
-			model: Type,
-			attributes: ['name'],
-			through: {
-				attributes: [],
+    return await Pokemon.findAll({ include: {
+		model: Type,
+		attributes: ['name'],
+		through: {
+			attributes: [],
 		}, 
 	}
 });
