@@ -1,9 +1,11 @@
-import { GET_POKEMONS, GET_POKEMONS_TYPES, GET_POKEMONS_DETAIL } from '../actions/actionsNames';
+import { GET_POKEMONS, GET_POKEMONS_TYPES, GET_POKEMONS_DETAIL, SEARCH_POKEMON, FILTER_POKEMON } from '../actions/actionsNames';
 
 const initialState = {
     allPokemons: [],
     pokemonsTypes: [],
-    pokemonDetail: undefined
+    pokemonDetail: {},
+    pokemonSearched: [],
+    pokemonFiltered: []
 };
 
 
@@ -12,7 +14,9 @@ function rootReducer(state = initialState, action) {
         case GET_POKEMONS:
             return {
                 ...state,
-                allPokemons: action.payload
+                allPokemons: action.payload,
+                pokemonSearched: [],
+                pokemonFiltered: []
             };
         case GET_POKEMONS_TYPES:
             return {
@@ -24,6 +28,16 @@ function rootReducer(state = initialState, action) {
                 ...state,
                 pokemonDetail: action.payload
             };
+        case SEARCH_POKEMON:
+            return {
+                ...state,
+                pokemonSearched: [action.payload]
+            };
+        case FILTER_POKEMON:
+            return {
+                ...state,
+                pokemonFiltered: action.payload
+            }    
         default:
             return state;
     }
