@@ -9,5 +9,12 @@ Desarrollo de una SPA (Single Page Application) utilizando React y Redux para el
 La SPA consume datos de una API (https://pokeapi.co) a traves de un Back End desarrollado en NodeJS, utilizando Express y PostgreSQL como base de datos.
 Algunos features del proyecto: SearchBar, ordenamientos y filtros, formulario controlado para creacion de un nuevo Pokemon.
 
+<br/>
 
-![Landing Page](client/src/image/Captura de Pantalla 2021-07-12 a la(s) 16.34.17.png)
+### Landing Page
+![Landing Page](./client/src/image/landing.png)
+
+<br/>
+
+### Home Page
+![Landing Page](./client/src/image/home.png)
